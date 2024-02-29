@@ -83,6 +83,35 @@ class Bend(Structure):
         self.start.set_coords(*self.corner.coords())
         self.end.set_coords(*self.corner.coords())
 
+    def divide(self):
+        corner_coords = np.array([*self.corner])
+        start_coords = np.array([*self.start])
+        end_coords = np.array([*self.end])
+        radius = self.curvature
+
+        a_vector = start_coords - corner_coords
+        b_vector = end_coords - corner_coords
+        norm_a_vector = np.linalg.norm(a_vector)
+        norm_b_vector = np.linalg.norm(b_vector)
+        c_vector = a_vector + b_vector
+        c_vector_normalized = c_vector / np.linalg.norm(c_vector)
+
+
+
+        corner_distance = norm_a_vector / np.sqrt(0.5 * ((np.dot(a_vector, b_vector) / (norm_a_vector * norm_b_vector)) + 1))
+        center_coords = corner_coords + c_vector_normalized * corner_distance
+
+        point_one = corner_coords + a_vector * (corner_distance - radius) / corner_distance
+        point_two = corner_coords + b_vector * (corner_distance - radius) / corner_distance
+
+        corner_one = Point(*point_one)
+        corner_two = Point(*point_two)
+
+        middle_point = center_coords - (b_vector / np.linalg.norm(b_vector)) * radius
+        
+
+
+
     def is_colapsed(self):
         return self.start == self.end == self.corner
 
