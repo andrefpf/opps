@@ -102,6 +102,7 @@ class StepHandler:
 
                 corner = Point(*corner_coords)
                 pipe = Bend(start, end, corner, radius)
+                pipe.divide()
 
             structures.append(pipe)
 

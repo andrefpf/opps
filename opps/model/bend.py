@@ -20,6 +20,9 @@ class Bend(Structure):
     end_diameter: float = 0.1
     color: tuple = (167, 223, 124)
     auto: bool = True
+    point_one: Point = Point(0, 0, 0)
+    point_two : Point = Point(0, 0, 0)
+    middle_point: Point = Point(0, 0, 0)
 
     @property
     def center(self):
@@ -96,18 +99,18 @@ class Bend(Structure):
         c_vector = a_vector + b_vector
         c_vector_normalized = c_vector / np.linalg.norm(c_vector)
 
-
-
         corner_distance = norm_a_vector / np.sqrt(0.5 * ((np.dot(a_vector, b_vector) / (norm_a_vector * norm_b_vector)) + 1))
         center_coords = corner_coords + c_vector_normalized * corner_distance
 
         point_one = corner_coords + a_vector * (corner_distance - radius) / corner_distance
         point_two = corner_coords + b_vector * (corner_distance - radius) / corner_distance
+        middle_point = center_coords - c_vector_normalized * radius
 
-        corner_one = Point(*point_one)
-        corner_two = Point(*point_two)
+        self.point_one = Point(*point_one)
+        self.point_two = Point(*point_two)
+        self.middle_point = Point(*middle_point)
+        
 
-        middle_point = center_coords - (b_vector / np.linalg.norm(b_vector)) * radius
         
 
 
@@ -139,6 +142,10 @@ class Bend(Structure):
             self.start,
             self.end,
             self.corner,
+            self.point_one,
+            self.point_two,
+            self.middle_point,
+            
         ]
 
     def as_vtk(self):
