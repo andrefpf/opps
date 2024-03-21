@@ -11,7 +11,7 @@ authors = [
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"
+python = ">=3.10"
 pyqt5 = "^5.15.9"
 vtk = "^9.2.6"
 pyqtdarktheme = "^2.1.0"
